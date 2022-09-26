@@ -11,14 +11,19 @@ const funcoes = {
             ? "importante" //esse é o IF
             : "comum"      //esse é o ELSE
         axios.post("http://localhost:10000/eventos", {
-            tipo: "ObservacaoClassificada",
-            dados: observacao,
+            tipo: "ObservacaoAtualizada",
+            dados: observacao
         })
     }
 }
 
 app.post('/eventos', (req, res) => {
-    funcoes[req.body.tipo](req.body.dados),
+    try{
+        funcoes[req.body.tipo](req.body.dados)
+    }
+    catch (ex){
+        console.log(ex)
+    }
     res.status(200).send({msg: "ok"})
 })
 
