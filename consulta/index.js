@@ -36,4 +36,16 @@ app.post('/eventos', (req, res) => {
     res.status(200).setDefaultEncoding(baseConsulta)
 })
 
-app.listen('6000', () => console.log('Consultas. Porta 6000.'))
+app.listen('6000', async () => {
+    console.log('Consultas. Porta 6000.')
+    try{
+        const resp = await axios.get('localhost:10000/eventos')
+        resp.data.forEach((valor, indice, colecao) => {
+            try{
+                funcoes[valor.tipo](valor.dados)
+            }
+            catch (ex){}
+        })   
+    }
+    catch (e){}
+})

@@ -23,8 +23,23 @@ app.post('/eventos', (req, res) => {
     }
     catch (ex){
         console.log(ex)
+        console.log(req.body)
     }
     res.status(200).send({msg: "ok"})
 })
 
-app.listen(7000, () => console.log("Classificação. Porta 7000"))
+app.listen(7000, () => {
+    try{
+        console.log("Classificação. Porta 7000")
+        const resp = axios.get('http://localhost/eventos')
+        resp.data.forEach((valor, indice, colecao) => {
+            try{
+                funcoes[valor.tipo](valor.dados)
+            }
+            catch (e){}
+        })
+    }
+    catch (e){
+        console.log(e)
+    }
+})
